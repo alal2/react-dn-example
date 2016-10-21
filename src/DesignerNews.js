@@ -9,12 +9,12 @@ class DesignerNews extends React.Component{
 	constructor(props){
 		super(props);
 		this.increaseUpVote=this.increaseUpVote.bind(this);
-		this.starredStory=this.starredStory.bind(this);
+		this.notStarredStory=this.notStarredStory.bind(this);
 		this.showStarredStories=this.showStarredStories.bind(this);
-		//this.showAllStories=this.showAllStories.bind(this);
+		this.showAllStories=this.showAllStories.bind(this);
 		this.state={
 			content:content,
-			starred:[]			
+			notStarred:[]			
 		}
 	}
 	increaseUpVote(id){
@@ -28,37 +28,47 @@ class DesignerNews extends React.Component{
 		});
 
 	}
-	// showAllStories(){
-	// 	var content=this.state.content.slice(0).map(story => Object.assign({},story));
-		
-	// 	this.setState({
-	// 		content:this.state.content,
-	// 		starred:[]
-
-	// 	})
-	// 	console.log(content)
-	// }
-	starredStory(id,refId){
+	showAllStories(){
 		var content=this.state.content.slice(0).map(story => Object.assign({},story));
-		var story=content.find(story => story.id===id);
-
-		if(ReactDOM.findDOMNode(refId).checked){
-			this.state.starred.push(story);
-		}
 
 		this.setState({
-			starred:this.state.starred
-		})
+			content,
+			notStarred:[]
 
+		})
+		console.log(content)
 	}
+	notStarredStory(id){
+	    var content = this.state.content.slice(0).map(story => Object.assign({}, story));
+	    var story = content.find(story => story.id === id);
+	    if(story.status=== false) {
+	      story.status=true;
+	    }
+	    else {
+	      story.status=false;
+	    }
+	    this.setState({
+	      content
+	    });
+  	}
+
+	
 	showStarredStories(){
 		
-		var content=this.state.content.slice(0).map(story => Object.assign({},story));
-		this.setState({
-			content:this.state.starred
-		})
+	var content = this.state.content.slice(0).map(story => Object.assign({}, story));
+    var notStarred = this.state.notStarred.slice(0).map(story => Object.assign({}, story));
+    content.forEach(item => {
+      if(item.status===false) {
+        notStarred.push(item.id);
+      }
+    })
+    console.log(notStarred);
+    this.setState({
+      notStarred
+    });
+  }
 
-	}
+	
 	
 	render(){
 		return(
@@ -78,7 +88,8 @@ class DesignerNews extends React.Component{
 					<StoryList
 						 content={this.state.content} 
 						 increaseUpVote={this.increaseUpVote}
-						 starredStory={this.starredStory}
+						 notStarredStory={this.notStarredStory}
+						 notStarred={this.state.notStarred}
 					/>
 				</div>
 			</div>

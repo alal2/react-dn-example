@@ -11,8 +11,8 @@ class Stories extends React.Component{
 		this.props.increaseUpVote(this.props.id);
 	}
 	starStory(){
-		if(ReactDOM.findDOMNode(this.refs.starredInput).checked)
-		{this.props.starredStory(this.props.id,this.refs.starredInput);}
+	
+		this.props.notStarredStory(this.props.id);
 	}
 	render(){
 		return(
@@ -22,8 +22,8 @@ class Stories extends React.Component{
 						<button className="glyphicon glyphicon-chevron-up" onClick={this.increaseVote}></button>
 						<span>{this.props.votes}</span>
 					</li>
-					<li className="story">{this.props.name}</li>
-					<li ><input type="checkbox"  ref="starredInput" name="starred" className="glyphicon glyphicon-star-empty" onChange={this.starStory}/></li>
+					<li className="story">{this.props.id}:{this.props.story}</li>
+					<li ><input type="checkbox"  name="starred" className="glyphicon glyphicon-star-empty" onChange={this.starStory}/></li>
 				</ul>
 			</div>
 
